@@ -1,0 +1,67 @@
+version: '3'
+
+services:
+
+  prometheus:
+    image: prom/prometheus:v2.11.1
+    container_name: prometheus
+    deploy:
+      replicas: 1
+    volumes:
+      - prometheus-data:/prometheus
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./alertmanager/alert.rules/alerts.rules.yml:/alertmanager/alert.rules/alerts.rules.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=365d'
+    network_mode: "host"
+
+  alertmanager:
+    image: prom/alertmanager:v0.18.0
+    container_name: alertmanager
+    deploy:
+      replicas: 1
+    volumes:
+      - ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+      - ./alertmanager/templates/default.tmpl:/etc/alertmanager/templates/default.tmpl
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
+    network_mode: "host"
+
+  grafana:
+    image: grafana/grafana:6.2.5
+    container_name: grafana
+    environment:
+      - GF_PATHS_CONFIG=/etc/grafana/grafana.ini
+    deploy:
+      replicas: 1
+    depends_on:
+      - prometheus
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
+      - ./grafana/dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yml
+      - ./grafana/grafana.ini:/etc/grafana/grafana.ini
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+    network_mode: "host"
+
+  blackbox:
+    image: prom/blackbox-exporter:v0.14.0
+    container_name: blackbox_exporter
+    deploy:
+      replicas: 1
+    volumes:
+    - ./blackbox:/config
+    network_mode: "host"
+
+  node_exporter:
+    image: prom/node-exporter:v0.18.1
+    container_name: node_exporter
+    deploy:
+      replicas: 1
+    network_mode: "host"
+
+volumes:
+  prometheus-data:
+  grafana-data:

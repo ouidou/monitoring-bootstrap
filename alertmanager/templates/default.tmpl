@@ -1,0 +1,10 @@
+{{ define "custom_title" }}
+   {{ range .Alerts }}
+       {{ if eq .Status "firing" }}:broken_heart:{{else}}:green_heart:{{ end }} [{{ .Annotations.identifier }}] {{.Annotations.summary }}
+   {{end}}
+{{ end }}
+{{ define "custom_slack_message" }}
+    {{ range .Alerts }}
+        {{ .Annotations.description }}
+    {{end}}
+{{end}}

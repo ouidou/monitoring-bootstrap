@@ -1,0 +1,21 @@
+global:
+  resolve_timeout: 5m
+
+route:
+ group_by: ['...']
+ # If an alert isn't caught by a route, send it slack.
+ receiver: slack_general
+
+receivers:
+- name: slack_general
+  slack_configs:
+  - api_url: https://hooks.slack.com/services/<VOTRE WEBHOOK SLACK>   # <-- Pensez à mettre votre URL de webhook slack ici
+    channel: alert-prod                                               # <-- Penser à mettre le bon channel ici
+    icon_emoji: ":rotating_light:"                                    # <-- L'emoji de votre choix pour s'afficher dans le channel slack
+    title_link: "http://127.0.0.1:9090/alerts"                        # <-- Ici on met l'url d'alertmanage pour reprendre le nom des alertes sur le /alerts
+    send_resolved: true                                               # <-- Ce booléen nous permet d'envoyer une seconde alerte quand elle est résolue
+    title: '{{ template "custom_title" . }}'                          # <-- Reprise du template
+    text: '{{ template "custom_slack_message" . }}'                   # <-- Reprise du template
+
+templates:
+  - '/etc/alertmanager/templates/default.tmpl'                        # <-- Template en go pour l'alerte slack, vous pouvez à peu près tout faire
