@@ -25,6 +25,13 @@ Dans le docker compose j'utilise le réseau de la machine et non le réseau virt
 - Grafana : `3000`
 - Node exporter : `9100`
 
+## grafana
+
+J'ai changé le login/pass par défaut, voici les credentials de grafana :
+
+- login : `unicorn`
+- password : `UnicornsExists!`
+
 ## ouidou
 
 Chez ouidou, nous aimons jouer avec les nouvelles technologies et nous sommes toujours curieux de découvrir des projets sympa et de nouvelles personnes. On recrute, donc n'hésite pas à nous contacter [ici](mailto:contact@ouidou.fr) et de visiter notre site [ici](https://ouidou.fr).
