@@ -1,6 +1,6 @@
 # monitoring-bootrap
 
-Ce dépôt est en lien avec mon article medium : /!\ mettre l'url de mon article medium
+Ce dépôt est en lien avec mon article medium : https://medium.com/ouidou/un-monitoring-complet-en-quelques-minutes-avec-prometheus-33e849e6392e
 
 Dans ce dépot vous allez trouver un projet pour lancer une stack de monitoring complète pour votre infrastructure. Ici j'utilise docker-compose pour lancer les différents services. C'est idéal pour un POC mais aussi viable en production. Si vous le souhaitez, vous pouvez très bien installer directement les services sur des machines virtuelles en reprenant les fichiers de configuration pour un départ simplifié. Vous retrouverez les dépôt github de toutes les technologies utilisées ci-dessous :
 
